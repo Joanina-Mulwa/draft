@@ -1,6 +1,6 @@
 package com.chess.draftpesa.web.rest;
 
-import com.chess.draftpesa.config.SecurityConfiguration;
+import com.chess.draftpesa.config.SecurityConfig;
 import com.chess.draftpesa.domain.Enumarations.PlayerStatus;
 import com.chess.draftpesa.domain.Enumarations.UserRole;
 import com.chess.draftpesa.domain.Enumarations.UserStatus;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest
-@Import(SecurityConfiguration.class)
+@Import(SecurityConfig.class)
 public class UserResourceTest {
     @Autowired
     private MockMvc mockMvc;
@@ -40,10 +40,19 @@ public class UserResourceTest {
     @Test
     public void createUserShouldReturnCreatedUser() throws Exception {
         User user = new User();
-        user.id(3L).firstName("Joan").middleName("Doe").lastName("Mulwa").fullName("Joan Mulwa")
-                .username("mulwaJoan").email("mulwajoaninah@gmail.com").password("admin").userRole(UserRole.PLAYER)
-                .userStatus(UserStatus.ACTIVE).playerStatus(PlayerStatus.ACTIVE)
-                .createdBy("mulwajoaninah@gmail.com").lastUpdatedBy("mulwajoaninah@gmail.com");
+        user.setId(3L);
+        user.setFirstName("Joan");
+        user.setMiddleName("Doe");
+        user.setLastName("Mulwa");
+        user.setFullName("Joan Mulwa");
+        user.setUsername("mulwaJoan");
+        user.setEmail("mulwajoaninah@gmail.com");
+        user.setPassword("admin");
+        user.setUserRole(UserRole.PLAYER);
+        user.setUserStatus(UserStatus.ACTIVE);
+        user.setPlayerStatus(PlayerStatus.ACTIVE);
+        user.setCreatedBy("mulwajoaninah@gmail.com");
+        user.setLastUpdatedBy("mulwajoaninah@gmail.com");
         user.setCreatedAt(LocalDateTime.now().toString());
         user.setLastUpdatedAt(LocalDateTime.now().toString());
 

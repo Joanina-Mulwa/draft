@@ -35,4 +35,12 @@ public class UserResource {
         log.info("REST request to get all users");
         return userService.getAllUsers();
     }
+
+    @PatchMapping("/{id}")
+    public User updateUserStatus(@PathVariable Long id,
+                                 @RequestParam String userStatus){
+        log.info("REST request to update user status of id {} to {} ", id, userStatus);
+        return userService.updateUserStatus(id, userStatus);
+    }
+
 }

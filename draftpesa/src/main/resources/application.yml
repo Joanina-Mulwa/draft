@@ -9,3 +9,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+application:
+    #  you can type `openssl rand -base64 64` on your command line to generate a random base-64 secret
+  jwt-secret: NVcLQlm83JUitn2ChhmNmnHZa4bwoeZlWYAJEmYhK+oY558POCfS0Z77b3J/XCogU1M2akzuzb0IFMJNc/X96g==
+  # Token valid for 24 hours - 60*60*24
+  jwt-validity-in-seconds: 86400
+
+  user-not-found-msg: "User not found"
+
+  user-exists-msg: "User already exists"
+

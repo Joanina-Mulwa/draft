@@ -4,20 +4,23 @@ import com.chess.draftpesa.domain.Enumarations.PlayerStatus;
 import com.chess.draftpesa.domain.Enumarations.UserRole;
 import com.chess.draftpesa.domain.Enumarations.UserStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "tbl_users")
-@Getter
-@Setter
-@ToString
-public class User {
+@Data
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +29,7 @@ public class User {
     private String middleName;
     private String fullName;
     private String password;
+    private String msisdn;
     private String email;
     private String username;
     private UserRole userRole;
@@ -35,69 +39,56 @@ public class User {
     private String createdAt;
     private String lastUpdatedBy;
     private String lastUpdatedAt;
-
-    public User id(Long id) {
-        this.id = id;
-        return this;
+    private Boolean locked = false;
+    private Boolean enabled = false;
+    public String getFullName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(firstName);
+        if(middleName != null){
+            stringBuilder.append(" ").append(middleName);
+        }
+        if(lastName != null){
+            stringBuilder.append(" ").append(lastName);
+        }
+        return stringBuilder.toString();
     }
 
-    public User firstName(String firstName) {
-        this.firstName = firstName;
-        return this;
+    public String getCreatedBy(){
+        return email;
+    }
+    public String getLastUpdatedBy(){
+        return email;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRole.name());
+        return Collections.singletonList(grantedAuthority);
+ }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public User lastName(String lastName) {
-        this.lastName = lastName;
-        return this;
+    @Override
+    public boolean isAccountNonLocked() {
+        //TODO: this will support the already created users whose entries for enables are null. Remove later
+        if(locked == null){
+            return true;
+        }
+        return !locked;
     }
 
-    public User middleName(String middleName) {
-        this.middleName = middleName;
-        return this;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public User fullName(String fullName) {
-        this.fullName = fullName;
-        return this;
-    }
-
-    public User password(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public User email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public User username(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public User userRole(UserRole userRole) {
-        this.userRole = userRole;
-        return this;
-    }
-
-    public User userStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
-        return this;
-    }
-
-    public User playerStatus(PlayerStatus playerStatus) {
-        this.playerStatus = playerStatus;
-        return this;
-    }
-
-    public User createdBy(String createdBy) {
-        this.createdBy = createdBy;
-        return this;
-    }
-
-    public User lastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-        return this;
+    @Override
+    public boolean isEnabled() {
+        if(enabled == null){
+            return true;
+        }
+        return enabled;
     }
 }
