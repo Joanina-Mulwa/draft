@@ -50,6 +50,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findByUserName(String username){
+        return userRepository.findByUsername(username);
+    }
+
     public List<User> getAllUsers(){
         log.info("Request to get all users");
         return userRepository.findAll();

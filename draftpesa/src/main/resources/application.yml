@@ -19,3 +19,5 @@ application:
 
   user-exists-msg: "User already exists"
 
+  token-prefix: "Bearer "
+

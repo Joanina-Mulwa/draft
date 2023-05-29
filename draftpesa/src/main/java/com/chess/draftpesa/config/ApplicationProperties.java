@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationProperties {
     private String jwtSecret;
-    private String jwtValidityInSeconds;
+    private long jwtValidityInSeconds;
     private String userNotFoundMsg;
     private String userExistsMsg;
+    private String tokenPrefix;
 
     public String getJwtSecret() {
         return jwtSecret;
@@ -19,11 +20,11 @@ public class ApplicationProperties {
         this.jwtSecret = jwtSecret;
     }
 
-    public String getJwtValidityInSeconds() {
+    public long getJwtValidityInSeconds() {
         return jwtValidityInSeconds;
     }
 
-    public void setJwtValidityInSeconds(String jwtValidityInSeconds) {
+    public void setJwtValidityInSeconds(long jwtValidityInSeconds) {
         this.jwtValidityInSeconds = jwtValidityInSeconds;
     }
 
@@ -43,13 +44,22 @@ public class ApplicationProperties {
         this.userExistsMsg = userExistsMsg;
     }
 
+    public String getTokenPrefix() {
+        return tokenPrefix;
+    }
+
+    public void setTokenPrefix(String tokenPrefix) {
+        this.tokenPrefix = tokenPrefix;
+    }
+
     @Override
     public String toString() {
         return "ApplicationProperties{" +
                 "jwtSecret='" + jwtSecret + '\'' +
                 ", jwtValidityInSeconds='" + jwtValidityInSeconds + '\'' +
-                ", userNotFound='" + userNotFoundMsg + '\'' +
-                ", userExists='" + userExistsMsg + '\'' +
+                ", userNotFoundMsg='" + userNotFoundMsg + '\'' +
+                ", userExistsMsg='" + userExistsMsg + '\'' +
+                ", tokenPrefix='" + tokenPrefix + '\'' +
                 '}';
     }
 }
